@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikepenz/gradle-dependency-submission.git"
+    "url": "git+https://github.com/pcipharma/gradle-dependency-submission.git"
   },
   "keywords": [
     "gradle",

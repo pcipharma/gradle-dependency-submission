@@ -10,23 +10,24 @@
 </p>
 
 <div align="center">
-  <a href="https://github.com/mikepenz/gradle-dependency-submission">
-		<img src="https://github.com/mikepenz/gradle-dependency-submission/actions/workflows/test.yml/badge.svg"/>
+  <a href="https://github.com/pcipharma/gradle-dependency-submission">
+		<img src="https://github.com/pcipharma/gradle-dependency-submission/actions/workflows/test.yml/badge.svg"/>
 	</a>
 </div>
 <br />
 
--------
+---
 
 <p align="center">
     <a href="#whats-included-">What's included 🚀</a> &bull;
     <a href="#setup">Setup 🛠️</a> &bull;
     <a href="#sample-%EF%B8%8F">Sample 🖥️</a> &bull;
-    <a href="#contribute-">Contribute 🧬</a> &bull;
+    <a href="#get-started-">Get Started 🧬</a> &bull;
+    <a href="#publishing-changes-">Publishing changes ??</a> &bull;
     <a href="#license">License 📓</a>
 </p>
 
--------
+---
 
 ### What's included 🚀
 
@@ -61,10 +62,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run snapshot action
-        uses: mikepenz/gradle-dependency-submission@{latest}
+        uses: pcipharma/gradle-dependency-submission@{latest}
         with:
-          gradle-project-path: "gradle-example"
-          gradle-build-module: ":app"
+          gradle-project-path: 'gradle-example'
+          gradle-build-module: ':app'
 ```
 
 <details><summary><b>Root Module Config</b></summary>
@@ -74,7 +75,7 @@ The following example showcases a gradle module in the root, without a module na
 
 ```yml
 - name: Root Gradle Dependency Submission
-  uses: mikepenz/gradle-dependency-submission@{latest}
+  uses: pcipharma/gradle-dependency-submission@{latest}
   with:
     use-gradlew: false
     gradle-build-module: |-
@@ -91,7 +92,7 @@ The following example showcases a gradle module in the root, without a module na
 
 ```yml
 - name: Gradle Dependency Submission
-  uses: mikepenz/gradle-dependency-submission@{latest}
+  uses: pcipharma/gradle-dependency-submission@{latest}
   with:
     gradle-project-path: |-
       gradle-example
@@ -105,41 +106,45 @@ The following example showcases a gradle module in the root, without a module na
 </p>
 </details>
 
-> ℹ️ Currently the action has to be run on the default branch. Running it as part of a PR won't update the [Dependency graph](https://github.com/mikepenz/gradle-dependency-submission/network/dependencies) of your projects [Insights](https://github.com/mikepenz/gradle-dependency-submission/pulse) - This seems to be a GitHub requirement.
+> ℹ️ Currently the action has to be run on the default branch. Running it as part of a PR won't update the [Dependency graph](https://github.com/pcipharma/gradle-dependency-submission/network/dependencies) of your projects [Insights](https://github.com/pcipharma/gradle-dependency-submission/pulse) - This seems to be a GitHub requirement.
 
 ### Inputs
 
-| **Input**      | **Description**                                                                                                                                                       |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `use-gradlew`    | Defines if `./gradlew` or `gradle` cli will be used to retrieve the dependencies. Defaults to 'true' e.g. `./gradlew`.|
-| `gradle-project-path`    | Defines the path to the gradle project. Defaults to ''. |
-| `gradle-build-module`    | Defines the module to retrieve the dependencies for. This is often `:app`. Defaults to ':'.  |
-| `gradle-build-configuration`    | Optional configuration filter, for which the dependencies are resolved. As example: Android projects - `debugCompileClasspath`, plain java projects - `compileClasspath`. |
-| `gradle-build-configuration-mapping`    | Optional configuration to allow per module build configuration mapping. Provide one mapping per line in the format like: `:module\|compileClasspath` |
-| `gradle-dependency-path`    | Defines the path to the gradle dependency file, relative to the `gradle-project-path`. If not provided, automatically resolved via gradle and the `module` config. |
-| `sub-module-mode`  | Defines how the action handles sub projects/modules. Possible options `IGNORE`, `COMBINED`, `INDIVIDUAL`, `INDIVIDUAL_DEEP`. Default: `IGNORE`. |
-| `include-build-environment`  | Optional mode to enable the submission of the `buildEnvironment` as individual Manifest via the dependency submission API. Default: `false`. |
+| **Input**                            | **Description**                                                                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `use-gradlew`                        | Defines if `./gradlew` or `gradle` cli will be used to retrieve the dependencies. Defaults to 'true' e.g. `./gradlew`.                                                    |
+| `gradle-project-path`                | Defines the path to the gradle project. Defaults to ''.                                                                                                                   |
+| `gradle-build-module`                | Defines the module to retrieve the dependencies for. This is often `:app`. Defaults to ':'.                                                                               |
+| `gradle-build-configuration`         | Optional configuration filter, for which the dependencies are resolved. As example: Android projects - `debugCompileClasspath`, plain java projects - `compileClasspath`. |
+| `gradle-build-configuration-mapping` | Optional configuration to allow per module build configuration mapping. Provide one mapping per line in the format like: `:module\|compileClasspath`                      |
+| `gradle-dependency-path`             | Defines the path to the gradle dependency file, relative to the `gradle-project-path`. If not provided, automatically resolved via gradle and the `module` config.        |
+| `sub-module-mode`                    | Defines how the action handles sub projects/modules. Possible options `IGNORE`, `COMBINED`, `INDIVIDUAL`, `INDIVIDUAL_DEEP`. Default: `IGNORE`.                           |
+| `include-build-environment`          | Optional mode to enable the submission of the `buildEnvironment` as individual Manifest via the dependency submission API. Default: `false`.                              |
 
-| **sub-module-mode**      |    **Description**           |
-| ----- | ---- |
-| `IGNORE`      | Ignores sub projects/modules and skips over their dependencies. Only the core module is being imported. |
-| `COMBINED`    | Combines and flattens the sub dependencies, and attaches them to the root of the parent module. |
-| `INDIVIDUAL`  | Handles every single module as its own `Manifest` in the dependency submission API. Uses the gradle API to retrieve the module paths, and imports them individually. |
-| `INDIVIDUAL_DEEP`  | Handles every single module as its own `Manifest` in the dependency submission API. Will call the `dependencies` task for every single sub project/module to gather the full tree. Uses the gradle API to retrieve the module paths, and imports them individually. |
+| **sub-module-mode** | **Description**                                                                                                                                                                                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IGNORE`            | Ignores sub projects/modules and skips over their dependencies. Only the core module is being imported.                                                                                                                                                             |
+| `COMBINED`          | Combines and flattens the sub dependencies, and attaches them to the root of the parent module.                                                                                                                                                                     |
+| `INDIVIDUAL`        | Handles every single module as its own `Manifest` in the dependency submission API. Uses the gradle API to retrieve the module paths, and imports them individually.                                                                                                |
+| `INDIVIDUAL_DEEP`   | Handles every single module as its own `Manifest` in the dependency submission API. Will call the `dependencies` task for every single sub project/module to gather the full tree. Uses the gradle API to retrieve the module paths, and imports them individually. |
 
 ## Sample 🖥️
 
-[Snapshot dependencies](https://github.com/mikepenz/gradle-dependency-submission/network/dependencies)
+[Snapshot dependencies](https://github.com/pcipharma/gradle-dependency-submission/network/dependencies)
 
-## Contribute 🧬
+## Get started 🧬
 
 ```bash
-# Install the dependencies  
+# Install the dependencies
 $ npm install
 
 # Verify lint is happy
 $ npm run lint -- --fix
+```
 
+## Publishing changes 🧬
+
+```bash
 # Build the typescript and package it for distribution
 $ npm run build && npm run package
 
@@ -151,13 +156,6 @@ $ npm test
 
 - [Go Dependency Submission Action](https://github.com/actions/go-dependency-submission/)
 - [Dependency Submission Toolkit](https://github.com/github/dependency-submission-toolkit)
-
-## Other actions
-
-- [release-changelog-builder-action](https://github.com/mikepenz/release-changelog-builder-action)
-- [action-junit-report](https://github.com/mikepenz/action-junit-report)
-- [xray-action](https://github.com/mikepenz/xray-action/)
-- [jira-release-composition-action](https://github.com/mikepenz/jira-release-composite-action)
 
 ## License
 

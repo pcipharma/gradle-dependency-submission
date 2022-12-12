@@ -341,9 +341,9 @@ function run() {
             manifests.push(...buildEnvironmentManifest);
         }
         const snapshot = new dependency_submission_toolkit_1.Snapshot({
-            name: 'mikepenz/gradle-dependency-submission',
-            url: 'https://github.com/mikepenz/gradle-dependency-submission',
-            version: '0.8.2'
+            name: 'pcipharma/gradle-dependency-submission',
+            url: 'https://github.com/pcipharma/gradle-dependency-submission',
+            version: '0.8.3'
         }, github.context, {
             correlator: `${github.context.job}-${gradleBuildModule.join('_')}-${gradleBuildConfiguration.join('_')}`,
             id: github.context.runId.toString()
